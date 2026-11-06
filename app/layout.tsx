@@ -1,6 +1,6 @@
 import "@radix-ui/themes/styles.css"
 import type { Metadata } from "next";
-import { Theme } from "@radix-ui/themes";
+import { Container, Theme } from "@radix-ui/themes";
 import "./globals.css";
 import NavBar from "./NavBar";
 
@@ -19,7 +19,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Theme>
           <NavBar />
           <main className="p-5">
-            {children}
+            <Container>{children}</Container>
           </main>
         </Theme>
       </body>
