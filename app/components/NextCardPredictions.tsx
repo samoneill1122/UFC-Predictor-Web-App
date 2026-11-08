@@ -5,12 +5,13 @@ import FightPredictionTable from './FightPredictionTable'
 import axios from 'axios'
 
 const NextCardPredictions = async () => {
-    let mainFights: any = []
-    let prelimFights: any = []
+    let mainPredictions: any = []
+    let prelimPredictions: any = []
     try {
-        const res = await axios.post("http://localhost:3000/api/predictions");
-        mainFights = res.data.main
-        prelimFights = res.data.prelims
+        const res = await axios.get("http://localhost:3000/api/predictions");
+        console.log(res);
+        mainPredictions = res.data.filter((pred: any) => pred.cardSection === "main");
+        prelimPredictions = res.data.filter((pred: any) => pred.cardSection === "prelims");
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.log(error.status)
@@ -25,10 +26,10 @@ const NextCardPredictions = async () => {
         <Heading mb="6" size="8" className='text-center'>Predictions for Next UFC Card</Heading>
         <Flex direction="column" gap="6">
             <Box>
-                <FightPredictionTable heading='Main Card' fights={mainFights} />
+                <FightPredictionTable heading='Main Card' predictions={mainPredictions} />
             </Box>
             <Box>
-                <FightPredictionTable heading='Prelims' fights={prelimFights} />
+                <FightPredictionTable heading='Prelims' predictions={prelimPredictions} />
             </Box>
         </Flex>
     </div>

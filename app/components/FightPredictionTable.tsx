@@ -3,15 +3,18 @@ import React from 'react'
 
 interface Props {
     heading: string,
-    fights: Fight[]
+    predictions: Prediction[]
 }
 
-interface Fight {
-    fight_title: string,
-    prediction: string
+interface Prediction {
+    id: number,
+    eventId: number,
+    fightTitle: string,
+    cardSection: string,
+    prediction: string,
 }
 
-const FightPredictionTable = ({heading, fights}: Props) => {
+const FightPredictionTable = ({heading, predictions}: Props) => {
   return (
     <>
         <Heading mb="5" size="5" className='text-center'>{heading}</Heading>
@@ -24,10 +27,10 @@ const FightPredictionTable = ({heading, fights}: Props) => {
             </Table.Header>
 
             <Table.Body>
-                {fights.map(f => (
-                    <Table.Row key={f.fight_title}>
-                        <Table.RowHeaderCell justify="center">{f.fight_title}</Table.RowHeaderCell>
-                        <Table.Cell justify="center">{f.prediction}</Table.Cell>
+                {predictions.map(p => (
+                    <Table.Row key={p.id}>
+                        <Table.RowHeaderCell justify="center">{p.fightTitle}</Table.RowHeaderCell>
+                        <Table.Cell justify="center">{p.prediction}</Table.Cell>
                     </Table.Row>
                 ))}
             </Table.Body>

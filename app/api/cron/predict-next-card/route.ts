@@ -1,14 +1,36 @@
+import { prisma } from "@/lib/prisma";
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
+import { getNextUFCEventId } from "../../common/common";
 
 
 export async function POST(request: NextRequest) {
-    const card = await getNextUFCCard(await getNextUFCEventId());
+    const nextUFCEventId = await getNextUFCEventId();
+    const card = await getNextUFCCard(nextUFCEventId);
     const fighters = card.filter((c: any) => c.status !== "cancelled").map((c: any) => ({fighter_b: c.fighter_a.name, fighter_r: c.fighter_b.name, card_section: c.card_section}));
-    const cardPredictions = getUFCCardPredictions(fighters)
+    const cardPredictions = await getUFCCardPredictions(fighters)
+    const mainPredictions = cardPredictions.main;
+    const prelimsPredictions = cardPredictions.prelims;
     
+    // persist predictions
+    for (const prediction of mainPredictions) 
+        persistPrediction(nextUFCEventId, prediction, "main");
+    for (const prediction of prelimsPredictions) 
+        persistPrediction(nextUFCEventId, prediction, "prelims");
     
     return NextResponse.json(cardPredictions);
+}
+
+async function persistPrediction(nextUFCEventId: number, prediction: any, cardSection: "main" | "prelims") {
+    const pred = await prisma.prediction.create({
+        data: {
+            eventId: nextUFCEventId,
+            fightTitle: prediction.fight_title,
+            cardSection: cardSection,
+            prediction: prediction.prediction,
+        }
+    });
+    console.log("Created prediction: ", pred);
 }
 
 async function getUFCCardPredictions(fighters: []) {
@@ -26,25 +48,6 @@ async function getUFCCardPredictions(fighters: []) {
             console.error(error);
         }
         return {};
-    }
-}
-
-async function getNextUFCEventId() {
-    try {
-        const res = await axios.get("https://api.ufcalendar.com/v1/events?org=ufc", {
-            headers: {
-                Authorization: `Bearer ${process.env.API_KEY}`,
-                Accept: 'application/json'
-            }
-        });
-        return res.data.data[0].id
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.log(error.status)
-            console.error(error.response?.data.detail);
-        } else {
-            console.error(error);
-        }
     }
 }
 
