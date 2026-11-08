@@ -7,7 +7,7 @@ interface Props {
 }
 
 interface Fight {
-    fightName: string,
+    fight_title: string,
     prediction: string
 }
 
@@ -25,8 +25,8 @@ const FightPredictionTable = ({heading, fights}: Props) => {
 
             <Table.Body>
                 {fights.map(f => (
-                    <Table.Row key={f.fightName}>
-                        <Table.RowHeaderCell justify="center">{f.fightName}</Table.RowHeaderCell>
+                    <Table.Row key={f.fight_title}>
+                        <Table.RowHeaderCell justify="center">{f.fight_title}</Table.RowHeaderCell>
                         <Table.Cell justify="center">{f.prediction}</Table.Cell>
                     </Table.Row>
                 ))}
