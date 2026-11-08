@@ -1,6 +1,6 @@
 'use cache'
 
-import { Box, Flex, Heading, Table} from '@radix-ui/themes'
+import { Box, Button, Flex, Heading, Table} from '@radix-ui/themes'
 import FightPredictionTable from './FightPredictionTable'
 import axios from 'axios'
 
