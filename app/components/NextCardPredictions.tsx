@@ -27,7 +27,7 @@ const NextCardPredictions = async () => {
   return (
     <div>
         <Heading mb="2" size="8" className='text-center'>Predictions for Next UFC Card</Heading>
-        <Heading mb="6" size="6" className='text-center'>{cardTitle}</Heading>
+        <Heading mb="6" size="6" className='text-center' color='red'>{cardTitle}</Heading>
         <Flex direction="column" gap="6">
             <Box>
                 <FightPredictionTable heading='Main Card' predictions={mainPredictions} />

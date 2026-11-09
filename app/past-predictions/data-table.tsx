@@ -58,9 +58,9 @@ export function DataTable<TData extends RowData>({
   });
 
   return (
-    <div className="overflow-hidden rounded-md border">
+    <div className="overflow-hidden border bg-gray-200 rounded-sm p-2">
       <Table>
-        <TableHeader>
+        <TableHeader className='border-b-2 border-b-black'>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -81,7 +81,7 @@ export function DataTable<TData extends RowData>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className={cn(row.getIsGrouped() && 'bg-muted-50')}
+                className={cn(row.getIsGrouped() && 'bg-muted-50 border-b-1 border-b-gray-500')}
                 
               >
                 {row.getVisibleCells().map((cell) => (

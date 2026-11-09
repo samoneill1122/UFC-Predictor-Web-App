@@ -18,7 +18,7 @@ const FightPredictionTable = ({heading, predictions}: Props) => {
   return (
     <>
         <Heading mb="3" size="5" className='text-center'>{heading}</Heading>
-        <Table.Root layout="fixed">
+        <Table.Root layout="fixed" className='bg-gray-200 rounded-sm'>
             <Table.Header>
                 <Table.Row>
                     <Table.ColumnHeaderCell justify="center">Fight</Table.ColumnHeaderCell>

@@ -1,6 +1,7 @@
 import "@radix-ui/themes/styles.css"
 import type { Metadata } from "next";
-import { Container, Theme } from "@radix-ui/themes";
+import { Container, Theme, ThemePanel } from "@radix-ui/themes";
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import NavBar from "./NavBar";
 import { Geist } from "next/font/google";
@@ -20,12 +21,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={cn("font-sans", geist.variable)}
     >
       <body>
-        <Theme>
-          <NavBar />
-          <main className="p-5">
-            <Container>{children}</Container>
-          </main>
-        </Theme>
+        {/* <ThemeProvider attribute="class"> */}
+          <Theme>
+            <NavBar />
+            <main className="p-5">
+              <Container>{children}</Container>
+            </main>
+            {/* <ThemePanel /> */}
+          </Theme>
+        {/* </ThemeProvider> */}
       </body>
     </html>
   );
