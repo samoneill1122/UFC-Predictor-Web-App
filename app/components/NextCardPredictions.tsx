@@ -5,13 +5,16 @@ import FightPredictionTable from './FightPredictionTable'
 import axios from 'axios'
 
 const NextCardPredictions = async () => {
-    let mainPredictions: any = []
-    let prelimPredictions: any = []
+    let cardTitle = "";
+    let mainPredictions: any = [];
+    let prelimPredictions: any = [];
     try {
-        const res = await axios.get("http://localhost:3000/api/predictions");
-        console.log(res);
-        mainPredictions = res.data.filter((pred: any) => pred.cardSection === "main");
-        prelimPredictions = res.data.filter((pred: any) => pred.cardSection === "prelims");
+        const res1 = await axios.get("http://localhost:3000/api/next-card");
+        cardTitle = res1.data;
+        const res2 = await axios.get("http://localhost:3000/api/predictions");
+        console.log(res2);
+        mainPredictions = res2.data.filter((pred: any) => pred.cardSection === "main");
+        prelimPredictions = res2.data.filter((pred: any) => pred.cardSection === "prelims");
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.log(error.status)
@@ -23,7 +26,8 @@ const NextCardPredictions = async () => {
 
   return (
     <div>
-        <Heading mb="6" size="8" className='text-center'>Predictions for Next UFC Card</Heading>
+        <Heading mb="2" size="8" className='text-center'>Predictions for Next UFC Card</Heading>
+        <Heading mb="6" size="6" className='text-center'>{cardTitle}</Heading>
         <Flex direction="column" gap="6">
             <Box>
                 <FightPredictionTable heading='Main Card' predictions={mainPredictions} />

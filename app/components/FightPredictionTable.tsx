@@ -17,7 +17,7 @@ interface Prediction {
 const FightPredictionTable = ({heading, predictions}: Props) => {
   return (
     <>
-        <Heading mb="5" size="5" className='text-center'>{heading}</Heading>
+        <Heading mb="3" size="5" className='text-center'>{heading}</Heading>
         <Table.Root layout="fixed">
             <Table.Header>
                 <Table.Row>

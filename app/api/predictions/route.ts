@@ -1,12 +1,13 @@
 import { prisma } from "@/lib/prisma";
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
-import { getNextUFCEventId } from "../common/common";
+import { getNextUFCEvent } from "../common/common";
 
 export async function GET(request: NextRequest) {
     let predictions: any = [];
     try {
-        const nextUFCEventId = await getNextUFCEventId();
+        const nextUFCEvent = await getNextUFCEvent();
+        const nextUFCEventId = nextUFCEvent.id;
         predictions = await prisma.prediction.findMany({
             where: {eventId: nextUFCEventId}
         });

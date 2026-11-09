@@ -15,6 +15,7 @@ datasource db {
 model Prediction {
   id             Int      @id @default(autoincrement())
   eventId        Int
+  eventTitle     String?
   fightTitle     String
   cardSection    String
   prediction     String

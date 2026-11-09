@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function getNextUFCEventId() {
+export async function getNextUFCEvent() {
     try {
         const res = await axios.get("https://api.ufcalendar.com/v1/events?org=ufc", {
             headers: {
@@ -8,7 +8,7 @@ export async function getNextUFCEventId() {
                 Accept: 'application/json'
             }
         });
-        return res.data.data[0].id
+        return res.data.data[0];
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.log(error.status)
