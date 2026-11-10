@@ -15,6 +15,8 @@ const NextCardPredictions = async () => {
         console.log(res2);
         mainPredictions = res2.data.filter((pred: any) => pred.cardSection === "main");
         prelimPredictions = res2.data.filter((pred: any) => pred.cardSection === "prelims");
+        console.log(mainPredictions);
+        console.log(mainPredictions.sort((p1: any, p2: any) => p1.ordering - p2.ordering))
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.log(error.status)
@@ -30,10 +32,10 @@ const NextCardPredictions = async () => {
         <Heading mb="6" size="6" className='text-center' color='red'>{cardTitle}</Heading>
         <Flex direction="column" gap="6">
             <Box>
-                <FightPredictionTable heading='Main Card' predictions={mainPredictions} />
+                <FightPredictionTable heading='Main Card' predictions={mainPredictions.sort((p1: any, p2: any) => p1.ordering - p2.ordering)} />
             </Box>
             <Box>
-                <FightPredictionTable heading='Prelims' predictions={prelimPredictions} />
+                <FightPredictionTable heading='Prelims' predictions={prelimPredictions.sort((p1: any, p2: any) => p1.ordering - p2.ordering)} />
             </Box>
         </Flex>
     </div>

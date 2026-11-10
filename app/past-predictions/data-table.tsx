@@ -53,10 +53,13 @@ export function DataTable<TData extends RowData>({
     initialState: {
       sorting: [
         {
-          id: 'cardSection',
-          desc: false, // sort by name in descending order by default
+          id: 'ordering',
+          desc: false,
         },
       ],
+      columnVisibility: {
+        ordering: false
+      }
     },
   });
 

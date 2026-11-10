@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     const nextUFCEventId = nextUFCEvent.id;
     const nextUFCEventTitle = nextUFCEvent.title;
     const card = await getNextUFCCard(nextUFCEventId);
-    const fighters = card.filter((c: any) => c.status !== "cancelled").map((c: any) => ({fight_id: c.id, fighter_b: c.fighter_a.name, fighter_r: c.fighter_b.name, card_section: c.card_section}));
+    const fighters = card.filter((c: any) => c.status !== "cancelled").map((c: any) => ({fight_id: c.id, fighter_b: c.fighter_a.name, fighter_r: c.fighter_b.name, card_section: c.card_section, ordering: c.ordering}));
     const cardPredictions = await getUFCCardPredictions(fighters)
     
     // persist predictions
@@ -29,6 +29,7 @@ async function persistPrediction(nextUFCEventId: number, nextUFCEventTitle: stri
             fightTitle: prediction.fight_title,
             cardSection: cardSection,
             prediction: prediction.prediction,
+            ordering: prediction.ordering
         }
     });
     console.log("Created prediction: ", pred);

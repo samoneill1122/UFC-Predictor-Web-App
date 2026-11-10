@@ -24,4 +24,5 @@ model Prediction {
   updatedAt      DateTime @updatedAt
   eventCompleted Boolean  @default(false)
   winner         String?
+  ordering       Int
 }

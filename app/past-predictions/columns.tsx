@@ -13,6 +13,7 @@ export type PastPrediction = {
   fightTitle: string
   prediction: string
   winner: string
+  ordering: number
 }
 
 // Use `accessor` for data columns and `display` for columns without one.
@@ -61,5 +62,8 @@ export const columns = columnHelper.columns([
         {info.getValue()}
       </span>
     ),
+  }),
+  columnHelper.accessor("ordering", {
+    header: "Ordering",
   })
 ])
