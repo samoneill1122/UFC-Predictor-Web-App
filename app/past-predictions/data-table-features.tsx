@@ -1,6 +1,7 @@
 import {
   columnFilteringFeature,
   columnVisibilityFeature,
+  globalFilteringFeature,
   createFilteredRowModel,
   createPaginatedRowModel,
   createSortedRowModel,
@@ -21,6 +22,7 @@ import {
 // register is tree-shaken out of the bundle.
 export const features = tableFeatures({
   columnFilteringFeature,
+  globalFilteringFeature,
   columnVisibilityFeature,
   rowPaginationFeature,
   rowSelectionFeature,

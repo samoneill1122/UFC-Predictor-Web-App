@@ -7,8 +7,10 @@ import {
 import type {
   ColumnDef,
   ExpandedState,
-  GroupingState, RowData} from '@tanstack/react-table'
+  GroupingState, 
+  ColumnFiltersState, RowData} from '@tanstack/react-table'
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 import {
   Table,
@@ -43,6 +45,7 @@ export function DataTable<TData extends RowData>({
     columns,
     onGroupingChange: setGrouping,
     onExpandedChange: setExpanded,
+    globalFilterFn: "includesString",
     state: {
       grouping,
       expanded,
@@ -58,6 +61,16 @@ export function DataTable<TData extends RowData>({
   });
 
   return (
+    <>
+    <div className="flex flex-wrap gap-3 pb-3">
+        <input
+          value={String(table.state.globalFilter ?? "")}
+          onChange={(e) => table.setGlobalFilter(e.target.value)}
+          placeholder="Search predictions..."
+          aria-label="Search predictions..."
+          className="rounded-lg border px-3 py-1.5"
+        />
+      </div>
     <div className="overflow-hidden border bg-gray-200 rounded-sm p-2">
       <Table>
         <TableHeader className='border-b-2 border-b-black'>
@@ -118,5 +131,6 @@ export function DataTable<TData extends RowData>({
         </Button>
       </div>
     </div>
+    </>
   )
 }
