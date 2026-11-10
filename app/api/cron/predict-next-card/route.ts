@@ -3,29 +3,27 @@ import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 import { getNextUFCEvent } from "../../common/common";
 
-
 export async function POST(request: NextRequest) {
     const nextUFCEvent = await getNextUFCEvent();
     const nextUFCEventId = nextUFCEvent.id;
     const nextUFCEventTitle = nextUFCEvent.title;
     const card = await getNextUFCCard(nextUFCEventId);
-    const fighters = card.filter((c: any) => c.status !== "cancelled").map((c: any) => ({fighter_b: c.fighter_a.name, fighter_r: c.fighter_b.name, card_section: c.card_section}));
+    const fighters = card.filter((c: any) => c.status !== "cancelled").map((c: any) => ({fight_id: c.id, fighter_b: c.fighter_a.name, fighter_r: c.fighter_b.name, card_section: c.card_section}));
     const cardPredictions = await getUFCCardPredictions(fighters)
-    const mainPredictions = cardPredictions.main;
-    const prelimsPredictions = cardPredictions.prelims;
     
     // persist predictions
-    for (const prediction of mainPredictions) 
+    for (const prediction of cardPredictions.main) 
         persistPrediction(nextUFCEventId, nextUFCEventTitle, prediction, "main");
-    for (const prediction of prelimsPredictions) 
+    for (const prediction of cardPredictions.prelims) 
         persistPrediction(nextUFCEventId, nextUFCEventTitle, prediction, "prelims");
     
     return NextResponse.json(cardPredictions);
 }
 
-async function persistPrediction(nextUFCEventId: number, nextUFCEventTitle: number, prediction: any, cardSection: "main" | "prelims") {
+async function persistPrediction(nextUFCEventId: number, nextUFCEventTitle: string, prediction: any, cardSection: "main" | "prelims") {
     const pred = await prisma.prediction.create({
         data: {
+            fightId: prediction.fight_id,
             eventId: nextUFCEventId,
             eventTitle: nextUFCEventTitle,
             fightTitle: prediction.fight_title,

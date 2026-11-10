@@ -82,11 +82,10 @@ export function DataTable<TData extends RowData>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
                 className={cn(row.getIsGrouped() && 'bg-muted-50 border-b-1 border-b-gray-500')}
-                
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
-                    <table.FlexRender cell={cell} />
+                    <table.FlexRender cell={cell}/>
                   </TableCell>
                 ))}
               </TableRow>

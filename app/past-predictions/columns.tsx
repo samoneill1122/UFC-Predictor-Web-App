@@ -12,6 +12,7 @@ export type PastPrediction = {
   eventTitle: string
   fightTitle: string
   prediction: string
+  winner: string
 }
 
 // Use `accessor` for data columns and `display` for columns without one.
@@ -52,5 +53,13 @@ export const columns = columnHelper.columns([
   }),
   columnHelper.accessor("prediction", {
     header: "Prediction",
+  }),
+  columnHelper.accessor("winner", {
+    header: "Winner",
+    cell: (info) => (
+      <span className={info.getValue() === info.row.original.prediction ? "text-green-600" : "text-red-600"}>
+        {info.getValue()}
+      </span>
+    ),
   })
 ])

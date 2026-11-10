@@ -8,10 +8,12 @@ interface Props {
 
 interface Prediction {
     id: number,
+    fightId: number,
     eventId: number,
     fightTitle: string,
     cardSection: string,
     prediction: string,
+    winner: string
 }
 
 const FightPredictionTable = ({heading, predictions}: Props) => {
