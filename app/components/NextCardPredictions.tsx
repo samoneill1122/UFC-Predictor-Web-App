@@ -15,8 +15,6 @@ const NextCardPredictions = async () => {
         console.log(res2);
         mainPredictions = res2.data.filter((pred: any) => pred.cardSection === "main");
         prelimPredictions = res2.data.filter((pred: any) => pred.cardSection === "prelims");
-        console.log(mainPredictions);
-        console.log(mainPredictions.sort((p1: any, p2: any) => p1.ordering - p2.ordering))
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.log(error.status)

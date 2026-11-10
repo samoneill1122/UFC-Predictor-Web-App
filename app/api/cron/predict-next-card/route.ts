@@ -8,7 +8,15 @@ export async function POST(request: NextRequest) {
     const nextUFCEventId = nextUFCEvent.id;
     const nextUFCEventTitle = nextUFCEvent.title;
     const card = await getNextUFCCard(nextUFCEventId);
-    const fighters = card.filter((c: any) => c.status !== "cancelled").map((c: any) => ({fight_id: c.id, fighter_b: c.fighter_a.name, fighter_r: c.fighter_b.name, card_section: c.card_section, ordering: c.ordering}));
+    const fighters = card.filter((c: any) => c.status !== "cancelled")
+        .map((c: any) => (
+            {
+                fight_id: c.id, 
+                fighter_b: removeAccents(c.fighter_a), 
+                fighter_r: removeAccents(c.fighter_b), 
+                card_section: c.card_section, 
+                ordering: c.ordering
+            }));
     const cardPredictions = await getUFCCardPredictions(fighters)
     
     // persist predictions
@@ -18,6 +26,10 @@ export async function POST(request: NextRequest) {
         persistPrediction(nextUFCEventId, nextUFCEventTitle, prediction, "prelims");
     
     return NextResponse.json(cardPredictions);
+}
+
+function removeAccents(str: string) {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 async function persistPrediction(nextUFCEventId: number, nextUFCEventTitle: string, prediction: any, cardSection: "main" | "prelims") {

@@ -32,7 +32,7 @@ const FightPredictionTable = ({heading, predictions}: Props) => {
                 {predictions.map(p => (
                     <Table.Row key={p.id}>
                         <Table.RowHeaderCell justify="center">{p.fightTitle}</Table.RowHeaderCell>
-                        <Table.Cell justify="center">{p.prediction}</Table.Cell>
+                        <Table.Cell justify="center" className={p.prediction === "Unable to predict" ? "text-red-600" : ""}>{p.prediction}</Table.Cell>
                     </Table.Row>
                 ))}
             </Table.Body>

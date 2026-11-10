@@ -54,6 +54,11 @@ export const columns = columnHelper.columns([
   }),
   columnHelper.accessor("prediction", {
     header: "Prediction",
+    cell: (info) => (
+      <span className={info.getValue() === "Unable to predict" ? "text-orange-600" : ""}>
+        {info.getValue()}
+      </span>
+    ),
   }),
   columnHelper.accessor("winner", {
     header: "Winner",
@@ -64,6 +69,6 @@ export const columns = columnHelper.columns([
     ),
   }),
   columnHelper.accessor("ordering", {
-    header: "Ordering",
+    header: "Prediction",
   })
 ])
