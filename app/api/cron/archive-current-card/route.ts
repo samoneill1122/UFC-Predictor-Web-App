@@ -15,8 +15,9 @@ export async function PATCH(request: NextRequest) {
                 Accept: 'application/json'
             }
         });
-        const card = res.data.card;
+        const card = res.data.data.card.filter((c: any) => c.status !== "cancelled");
         for (const fight of card) {
+            console.log(fight.id);
             const fighter_a_id = fight.fighter_a.id;
             const fighter_b_id = fight.fighter_b.id;
             const winnerId = fight.result.winner_fighter_id;
@@ -25,13 +26,18 @@ export async function PATCH(request: NextRequest) {
                 winnerName = fight.fighter_a.name
             else if (winnerId === fighter_b_id)
                 winnerName = fight.fighter_b.name;
-            prisma.prediction.update({
-                where: {fightId: fight.id},
-                data: {
-                    eventCompleted: true,
-                    winner: winnerName
-                }
-            });
+            try {
+                const updatedPred = await prisma.prediction.update({
+                    where: {fightId: fight.id},
+                    data: {
+                        eventCompleted: true,
+                        winner: winnerName
+                    }
+                });
+                console.log("Updated prediction: ", updatedPred)
+            } catch (error) {
+                console.error(`Failed to update prediction with id ${fight.id}`)
+            }
         }
     } catch (error) {
         if (axios.isAxiosError(error)) {

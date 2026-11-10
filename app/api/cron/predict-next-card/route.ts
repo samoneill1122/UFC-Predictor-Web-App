@@ -12,8 +12,8 @@ export async function POST(request: NextRequest) {
         .map((c: any) => (
             {
                 fight_id: c.id, 
-                fighter_b: removeAccents(c.fighter_a), 
-                fighter_r: removeAccents(c.fighter_b), 
+                fighter_b: removeAccents(c.fighter_a.name), 
+                fighter_r: removeAccents(c.fighter_b.name), 
                 card_section: c.card_section, 
                 ordering: c.ordering
             }));
@@ -28,8 +28,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(cardPredictions);
 }
 
-function removeAccents(str: string) {
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+function removeAccents(s: string) {
+    console.log(s);
+    return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 async function persistPrediction(nextUFCEventId: number, nextUFCEventTitle: string, prediction: any, cardSection: "main" | "prelims") {

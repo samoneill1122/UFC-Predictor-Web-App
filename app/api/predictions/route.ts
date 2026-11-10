@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
     try {
         const nextUFCEvent = await getNextUFCEvent();
         const nextUFCEventId = nextUFCEvent.id;
+        console.log(nextUFCEventId);
         predictions = await prisma.prediction.findMany({
             where: {eventId: nextUFCEventId}
         });
