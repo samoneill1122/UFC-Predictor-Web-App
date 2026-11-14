@@ -12,7 +12,6 @@ const NextCardPredictions = async () => {
         const res1 = await axios.get("http://localhost:3000/api/next-card");
         cardTitle = res1.data;
         const res2 = await axios.get("http://localhost:3000/api/predictions");
-        console.log(res2);
         mainPredictions = res2.data.filter((pred: any) => pred.cardSection === "main");
         prelimPredictions = res2.data.filter((pred: any) => pred.cardSection === "prelims");
     } catch (error) {

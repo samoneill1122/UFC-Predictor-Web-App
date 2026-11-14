@@ -11,13 +11,12 @@ export async function PATCH(request: NextRequest) {
     try {
         const res = await axios.get("https://api.ufcalendar.com/v1/events/" + currPrediction[0].eventId, {
             headers: {
-                Authorization: `Bearer ${process.env.API_KEY}`,
+                Authorization: `Bearer ${process.env.UFC_CALENDAR_API_KEY}`,
                 Accept: 'application/json'
             }
         });
         const card = res.data.data.card.filter((c: any) => c.status !== "cancelled");
         for (const fight of card) {
-            console.log(fight.id);
             const fighter_a_id = fight.fighter_a.id;
             const fighter_b_id = fight.fighter_b.id;
             const winnerId = fight.result.winner_fighter_id;

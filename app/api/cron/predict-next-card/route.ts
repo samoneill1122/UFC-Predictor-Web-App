@@ -5,9 +5,11 @@ import { getNextUFCEvent } from "../../common/common";
 
 export async function POST(request: NextRequest) {
     const nextUFCEvent = await getNextUFCEvent();
+    // console.log("next ufc event: ", nextUFCEvent);
     const nextUFCEventId = nextUFCEvent.id;
     const nextUFCEventTitle = nextUFCEvent.title;
     const card = await getNextUFCCard(nextUFCEventId);
+    // console.log("card: ", card);
     const fighters = card.filter((c: any) => c.status !== "cancelled")
         .map((c: any) => (
             {
@@ -17,10 +19,12 @@ export async function POST(request: NextRequest) {
                 card_section: c.card_section, 
                 ordering: c.ordering
             }));
+    // console.log("fighters: ", fighters);
     const cardPredictions = await getUFCCardPredictions(fighters)
+    console.log("card preds: ", cardPredictions);
     
     // persist predictions
-    for (const prediction of cardPredictions.main) 
+    for (const prediction of cardPredictions.main)
         persistPrediction(nextUFCEventId, nextUFCEventTitle, prediction, "main");
     for (const prediction of cardPredictions.prelims) 
         persistPrediction(nextUFCEventId, nextUFCEventTitle, prediction, "prelims");
@@ -29,7 +33,6 @@ export async function POST(request: NextRequest) {
 }
 
 function removeAccents(s: string) {
-    console.log(s);
     return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
@@ -50,8 +53,11 @@ async function persistPrediction(nextUFCEventId: number, nextUFCEventTitle: stri
 
 async function getUFCCardPredictions(fighters: []) {
     try {
-        const res = await axios.post("http://localhost:8000/predict-card", {
-            all_card_fight_details: fighters
+        const data = { all_card_fight_details: fighters };
+        console.log("data: ", data);
+        const headers = { 'x-api-key': process.env.UFC_PREDICTOR_API_KEY };
+        const res = await axios.post("http://localhost:8000/predict-card", data, {
+            headers: headers
         });
         return res.data;
         
@@ -70,7 +76,7 @@ async function getNextUFCCard(nextUFCEventId: string) {
     try {
         const res = await axios.get("https://api.ufcalendar.com/v1/events/" + nextUFCEventId, {
             headers: {
-                Authorization: `Bearer ${process.env.API_KEY}`,
+                Authorization: `Bearer ${process.env.UFC_CALENDAR_API_KEY}`,
                 Accept: 'application/json'
             }
         });

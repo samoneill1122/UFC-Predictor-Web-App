@@ -4,7 +4,7 @@ export async function getNextUFCEvent() {
     try {
         const res = await axios.get("https://api.ufcalendar.com/v1/events?org=ufc", {
             headers: {
-                Authorization: `Bearer ${process.env.API_KEY}`,
+                Authorization: `Bearer ${process.env.UFC_CALENDAR_API_KEY}`,
                 Accept: 'application/json'
             }
         });
