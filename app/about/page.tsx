@@ -1,4 +1,5 @@
 import { Flex, Text } from '@radix-ui/themes'
+import Link from 'next/link'
 import React from 'react'
 
 const AboutPage = () => {
@@ -17,7 +18,7 @@ const AboutPage = () => {
           </Text>
           <Text>
             At the start of every week and after the previous week's card, the current predictions will
-            be archived and will appear in the 'Past Predictions' page, showing the winner of each bout.
+            be archived and will appear in the <Link href="/past-predictions" className='text-blue-500'>Past Predictions</Link> page, showing the winner of each bout.
             Predictions will then be made for the next card and will appear on the home page.
           </Text>
           <Text>
