@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
             }));
     // console.log("fighters: ", fighters);
     const cardPredictions = await getUFCCardPredictions(fighters)
-    console.log("card preds: ", cardPredictions);
+    console.log(cardPredictions);
     
     // persist predictions
     for (const prediction of cardPredictions.main)
@@ -44,7 +44,8 @@ async function persistPrediction(nextUFCEventId: number, nextUFCEventTitle: stri
             eventTitle: nextUFCEventTitle,
             fightTitle: prediction.fight_title,
             cardSection: cardSection,
-            prediction: prediction.prediction,
+            prediction: prediction.prediction[0],
+            confidence: prediction.prediction[1],
             ordering: prediction.ordering
         }
     });
@@ -54,13 +55,12 @@ async function persistPrediction(nextUFCEventId: number, nextUFCEventTitle: stri
 async function getUFCCardPredictions(fighters: []) {
     try {
         const data = { all_card_fight_details: fighters };
-        console.log("data: ", data);
+        // console.log("data: ", data);
         const headers = { 'x-api-key': process.env.UFC_PREDICTOR_API_KEY };
-        const res = await axios.post("http://localhost:8000/predict-card", data, {
+        const res = await axios.post(`${process.env.UFC_PREDICTOR_API_BASE_URL}/predict-card`, data, {
             headers: headers
         });
         return res.data;
-        
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.log(error.status)

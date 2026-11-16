@@ -9,13 +9,14 @@ export async function PATCH(request: NextRequest) {
     });
 
     try {
-        const res = await axios.get("https://api.ufcalendar.com/v1/events/" + currPrediction[0].eventId, {
+        const res = await axios.get("https://api.ufcalendar.com/v1/events/" + currPrediction.eventId, {
             headers: {
                 Authorization: `Bearer ${process.env.UFC_CALENDAR_API_KEY}`,
                 Accept: 'application/json'
             }
         });
         const card = res.data.data.card.filter((c: any) => c.status !== "cancelled");
+        console.log(card);
         for (const fight of card) {
             const fighter_a_id = fight.fighter_a.id;
             const fighter_b_id = fight.fighter_b.id;

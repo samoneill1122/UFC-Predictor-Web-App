@@ -13,6 +13,7 @@ interface Prediction {
     fightTitle: string,
     cardSection: string,
     prediction: string,
+    confidence: number,
     winner: string
 }
 
@@ -25,6 +26,7 @@ const FightPredictionTable = ({heading, predictions}: Props) => {
                 <Table.Row>
                     <Table.ColumnHeaderCell justify="center">Fight</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell justify="center">Prediction</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell justify="center">Confidence</Table.ColumnHeaderCell>
                 </Table.Row>
             </Table.Header>
 
@@ -33,6 +35,7 @@ const FightPredictionTable = ({heading, predictions}: Props) => {
                     <Table.Row key={p.id}>
                         <Table.RowHeaderCell justify="center">{p.fightTitle}</Table.RowHeaderCell>
                         <Table.Cell justify="center" className={p.prediction === "Unable to predict" ? "text-red-600" : ""}>{p.prediction}</Table.Cell>
+                        <Table.Cell justify="center">{(p.confidence*100).toFixed(0) + "%"}</Table.Cell>
                     </Table.Row>
                 ))}
             </Table.Body>

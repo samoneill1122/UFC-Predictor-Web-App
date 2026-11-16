@@ -20,6 +20,7 @@ model Prediction {
   fightTitle     String
   cardSection    String
   prediction     String
+  confidence     Float
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   eventCompleted Boolean  @default(false)
