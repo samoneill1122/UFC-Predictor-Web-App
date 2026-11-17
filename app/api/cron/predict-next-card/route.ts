@@ -5,11 +5,9 @@ import { getNextUFCEvent } from "../../common/common";
 
 export async function POST(request: NextRequest) {
     const nextUFCEvent = await getNextUFCEvent();
-    // console.log("next ufc event: ", nextUFCEvent);
     const nextUFCEventId = nextUFCEvent.id;
     const nextUFCEventTitle = nextUFCEvent.title;
     const card = await getNextUFCCard(nextUFCEventId);
-    // console.log("card: ", card);
     const fighters = card.filter((c: any) => c.status !== "cancelled")
         .map((c: any) => (
             {
@@ -19,9 +17,7 @@ export async function POST(request: NextRequest) {
                 card_section: c.card_section, 
                 ordering: c.ordering
             }));
-    // console.log("fighters: ", fighters);
     const cardPredictions = await getUFCCardPredictions(fighters)
-    console.log(cardPredictions);
     
     // persist predictions
     for (const prediction of cardPredictions.main)
@@ -37,19 +33,23 @@ function removeAccents(s: string) {
 }
 
 async function persistPrediction(nextUFCEventId: number, nextUFCEventTitle: string, prediction: any, cardSection: "main" | "prelims") {
-    const pred = await prisma.prediction.create({
-        data: {
-            fightId: prediction.fight_id,
-            eventId: nextUFCEventId,
-            eventTitle: nextUFCEventTitle,
-            fightTitle: prediction.fight_title,
-            cardSection: cardSection,
-            prediction: prediction.prediction[0],
-            confidence: prediction.prediction[1],
-            ordering: prediction.ordering
-        }
-    });
-    console.log("Created prediction: ", pred);
+    try {
+        const pred = await prisma.prediction.create({
+            data: {
+                fightId: prediction.fight_id,
+                eventId: nextUFCEventId,
+                eventTitle: nextUFCEventTitle,
+                fightTitle: prediction.fight_title,
+                cardSection: cardSection,
+                prediction: prediction.prediction[0],
+                confidence: prediction.prediction[1],
+                ordering: prediction.ordering
+            }
+        });
+        console.log("Created prediction: ", pred);
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 async function getUFCCardPredictions(fighters: []) {
