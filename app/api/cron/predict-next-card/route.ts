@@ -41,6 +41,7 @@ function removeAccents(s: string) {
 async function persistPrediction(nextUFCEventId: number, nextUFCEventTitle: string, prediction: any, cardSection: "main" | "prelims") {
     console.log("INSIDE PERSIST PREDICTION")
     try {
+        console.log("INSIDE TRY");
         const pred = await prisma.prediction.create({
             data: {
                 fightId: prediction.fight_id,
