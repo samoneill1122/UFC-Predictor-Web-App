@@ -18,12 +18,18 @@ export async function POST(request: NextRequest) {
                 ordering: c.ordering
             }));
     const cardPredictions = await getUFCCardPredictions(fighters)
+    console.log(cardPredictions.main);
+    console.log(cardPredictions.prelims);
     
     // persist predictions
-    for (const prediction of cardPredictions.main)
+    for (const prediction of cardPredictions.main) {
+        console.log(prediction);
         persistPrediction(nextUFCEventId, nextUFCEventTitle, prediction, "main");
-    for (const prediction of cardPredictions.prelims) 
+    }
+    for (const prediction of cardPredictions.prelims) {
+        console.log(prediction);
         persistPrediction(nextUFCEventId, nextUFCEventTitle, prediction, "prelims");
+    }
     
     return NextResponse.json(cardPredictions);
 }
@@ -33,6 +39,7 @@ function removeAccents(s: string) {
 }
 
 async function persistPrediction(nextUFCEventId: number, nextUFCEventTitle: string, prediction: any, cardSection: "main" | "prelims") {
+    console.log("INSIDE PERSIST PREDICTION")
     try {
         const pred = await prisma.prediction.create({
             data: {
