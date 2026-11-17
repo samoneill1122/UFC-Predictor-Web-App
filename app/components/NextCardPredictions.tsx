@@ -9,9 +9,9 @@ const NextCardPredictions = async () => {
     let mainPredictions: any = [];
     let prelimPredictions: any = [];
     try {
-        const res1 = await axios.get("http://localhost:3000/api/next-card");
+        const res1 = await axios.get(`${process.env.BASE_URL}/api/next-card`);
         cardTitle = res1.data;
-        const res2 = await axios.get("http://localhost:3000/api/predictions");
+        const res2 = await axios.get(`${process.env.BASE_URL}/api/predictions`);
         mainPredictions = res2.data.filter((pred: any) => pred.cardSection === "main");
         prelimPredictions = res2.data.filter((pred: any) => pred.cardSection === "prelims");
     } catch (error) {

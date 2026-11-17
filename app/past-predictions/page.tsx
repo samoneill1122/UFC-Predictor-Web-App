@@ -7,7 +7,7 @@ import { DataTable } from "./data-table"
 async function getData(): Promise<PastPrediction[]> {
     let predictions = [];
     try {
-        const res = await axios.get("http://localhost:3000/api/past-predictions");
+        const res = await axios.get(`${process.env.BASE_URL}/api/past-predictions`);
         predictions = res.data;
         console.log(predictions);
     } catch (error) {
