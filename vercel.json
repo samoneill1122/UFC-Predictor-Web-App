@@ -1,7 +1,7 @@
 {
     "crons": [
         { 
-            "path": "api/cron/prepare-next-card-predictions",
+            "path": "/api/cron/prepare-next-card-predictions",
             "schedule": "0 14 * * 0"
         }
     ]
