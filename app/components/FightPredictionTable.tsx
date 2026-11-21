@@ -35,7 +35,7 @@ const FightPredictionTable = ({heading, predictions}: Props) => {
                     <Table.Row key={p.id}>
                         <Table.RowHeaderCell justify="center">{p.fightTitle}</Table.RowHeaderCell>
                         <Table.Cell justify="center" className={p.prediction === "Unable to predict" ? "text-red-600" : ""}>{p.prediction}</Table.Cell>
-                        <Table.Cell justify="center">{(p.confidence*100).toFixed(0) + "%"}</Table.Cell>
+                        <Table.Cell justify="center">{p.confidence != 0 ? ((p.confidence*100).toFixed(0) + "%") : ""}</Table.Cell>
                     </Table.Row>
                 ))}
             </Table.Body>

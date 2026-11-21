@@ -5,7 +5,7 @@ import React from 'react'
 const AboutPage = () => {
   return (
     <div className='mt-7 p-4 bg-gray-200 rounded-sm'>
-      <Text size="4">
+      <Text size="3">
         <Flex direction="column" gap="4">
           <Text>
             You'll be shocked to hear that UFC Fight Predictor is a website to... predict UFC fights!
